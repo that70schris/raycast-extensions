@@ -31,6 +31,8 @@ Object.defineProperties(String.prototype, {
 })
 
 export class HttpService extends Service {
+  static bonjour = new Bonjour()
+
   static set services(value: HttpService[]) {
     value
       ? cache.set(KEY, JSON.stringify(Object.values(value)))
@@ -52,7 +54,7 @@ export class HttpService extends Service {
   }
 
   static fetch() {
-    new Bonjour().find({ type: 'http' }, (service: Service) => {
+    this.bonjour.find({ type: 'http' }, (service: Service) => {
       this.services = Object.values({
         ...(this.services ?? []).reduce((result, service) => {
           return {
